@@ -1,0 +1,36 @@
+package blau
+
+syntax = "proto3";
+
+// Enum values are used as indices 
+enum Color {
+    BLUE = 0;
+    YELLOW = 1;
+    RED = 2;
+    BLACK = 3;
+    WHITE = 4;
+}
+
+message Player {
+    string uuid = 1;
+    string name = 2;
+    uint16 score = 3;
+}
+
+message Bag {
+    repeated uint16 stones = 1;
+}
+
+message Board {
+    repeated ColorRow row = 1;
+}
+
+message ColorRow {
+    Parking parking = 1;
+    fixed32 stored_bitfield = 2;
+}
+
+message Parking {
+    uint16 amount = 1;
+    Color color = 2;
+}
