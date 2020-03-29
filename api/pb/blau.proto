@@ -1,6 +1,11 @@
-package blau
 
 syntax = "proto3";
+
+package com.github.abergmeier.blau.api.pb;
+
+message Game {
+    map<string, Player> players = 1;
+}
 
 // Enum values are used as indices 
 enum Color {
@@ -14,15 +19,14 @@ enum Color {
 message Player {
     string uuid = 1;
     string name = 2;
-    uint16 score = 3;
 }
 
 message Bag {
-    repeated uint16 stones = 1;
+    repeated uint32 stones = 1;
 }
 
 message Board {
-    repeated ColorRow row = 1;
+    repeated ColorRow rows = 1;
 }
 
 message ColorRow {
@@ -31,6 +35,64 @@ message ColorRow {
 }
 
 message Parking {
-    uint16 amount = 1;
+    uint32 amount = 1;
     Color color = 2;
+}
+
+message Session {
+    string owner_uuid = 1;
+    // Keep this repeated since we have an implicit max of 4 players
+    repeated string player_uuids = 2;
+}
+
+message PlayerEvent {
+    oneof event {
+        PlayerAddedEvent added = 1;
+        PlayerRemovedEvent removed = 2;
+    }
+}
+
+message PlayerAddedEvent {
+    Player player = 1;
+}
+
+message PlayerRemovedEvent {
+    string uuid = 1;
+}
+
+message PlayerAddRequest {
+    string name = 1;
+}
+message PlayerStreamRequest {}
+message PlayerTouchRequest {
+    string uuid = 1;
+}
+message PlayerRemoveRequest {
+    string uuid = 1;
+}
+
+message PlayerAddReply {
+    Player player = 1;
+    repeated Player others = 2;
+}
+message PlayerTouchReply {}
+message PlayerRemoveReply {
+}
+
+message SessionListRequest {}
+message SessionJoinRequest {
+    string session_uuid = 1;
+    string player_uuid = 2;
+}
+message SessionJoinReply {}
+
+service Players {
+    rpc Add(PlayerAddRequest) returns (PlayerAddReply) {}
+    rpc Touch(PlayerTouchRequest) returns (PlayerTouchReply) {}
+    rpc Remove(PlayerRemoveRequest) returns (PlayerRemoveReply) {}
+}
+
+service Sessions {
+    rpc List(SessionListRequest) returns (stream Session) {}
+    rpc Join(SessionJoinRequest) returns (SessionJoinReply) {}
 }

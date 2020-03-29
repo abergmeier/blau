@@ -1,0 +1,7 @@
+steps:
+- name: gcr.io/cloud-builders/bazel
+  args:
+  - build
+  - //cmd/players
+  - "--verbose_failures"
+  waitFor: ["-"]

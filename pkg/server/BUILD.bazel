@@ -1,0 +1,38 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "players.go",
+    ],
+    importpath = "github.com/abergmeier/blau/pkg/server",
+    visibility = ["//visibility:public"],
+    deps = 
+        ["//api/pb:go_default_library",
+        "@org_golang_google_grpc//:go_default_library",
+        "@com_google_cloud_go//firestore:go_default_library",
+        "@com_github_golang_protobuf//proto:go_default_library",
+        "@org_golang_google_grpc//test/bufconn:go_default_library",
+        "@com_github_google_uuid//:go_default_library",
+        "@org_golang_google_grpc//codes:go_default_library",
+        "@org_golang_google_grpc//status:go_default_library",
+    ],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "players_test.go",
+    ],
+    embed = [":go_default_library"],
+    deps = [
+        "@org_golang_google_api//option:go_default_library",
+        "@org_golang_google_grpc//codes:go_default_library",
+        "@org_golang_google_grpc//status:go_default_library",
+    ],
+    tags = [
+        "no-sandbox",
+        "requires-network",
+    ],
+    size = "small",
+)

@@ -1,0 +1,23 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "bag.go",
+        "board.go",
+        "player.go",
+        "session.go",
+    ],
+    importpath = "github.com/abergmeier/blau/pkg/state",
+    visibility = ["//visibility:public"],
+    deps = ["//api/pb:go_default_library"],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "bag_test.go",
+        "session_test.go",
+    ],
+    embed = [":go_default_library"],
+)
