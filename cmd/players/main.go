@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"os"
 	"strconv"
 	"time"
 
@@ -24,15 +25,15 @@ func main() {
 	flag.Parse()
 
 	if *port == 0 {
-		portEnv = os.Getenv("PORT")
+		portEnv := os.Getenv("PORT")
 		if portEnv != "" {
-			*port, err := strconv.Atoi(portEnv)
+			p, err := strconv.Atoi(portEnv)
 			if err != nil {
 				log.Fatalf("Parsing PORT failed: %v", portEnv)
 			}
+			*port = p
 		}
 	}
-	
 
 	client, err := firestore.NewClient(context.Background(), *projectID)
 	if err != nil {
