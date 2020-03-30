@@ -4,7 +4,7 @@ steps:
   - build
   - //cmd/players
   - "--google_default_credentials"
-  - "--remote_http_cache=https://storage.googleapis.com/$_BUCKET_NAME"
+  - "--remote_http_cache=https://storage.googleapis.com/${_BUCKET_NAME}"
   - "--verbose_failures"
   waitFor: ["-"]
   timeout: 1200s
