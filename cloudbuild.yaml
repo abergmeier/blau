@@ -5,3 +5,5 @@ steps:
   - //cmd/players
   - "--verbose_failures"
   waitFor: ["-"]
+  timeout: 1200s
+timeout: 1200s
