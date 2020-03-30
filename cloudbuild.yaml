@@ -2,10 +2,11 @@ steps:
 - name: gcr.io/cloud-builders/bazel
   args:
   - build
-  - //cmd/players
+  - //cmd/players:image
   - "--google_default_credentials"
   - "--remote_http_cache=https://storage.googleapis.com/${_BUCKET_NAME}"
   - "--verbose_failures"
+  - "--platforms=@io_bazel_rules_go//go/toolchain:linux_amd64"
   waitFor: ["-"]
   timeout: 1200s
 timeout: 1200s
